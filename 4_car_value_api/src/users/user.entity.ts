@@ -17,7 +17,7 @@ export class User {
   email: string;
 
   @Column()
-  @Exclude()
+  // @Exclude()
   password: string;
 
   @AfterInsert() //hooks -> do some action when something happens
