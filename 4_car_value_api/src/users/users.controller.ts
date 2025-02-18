@@ -59,6 +59,13 @@ export class UsersController {
     return user;
   }
 
+  @Post('/signout')
+  signOut(@Session() session: any) {
+    session.userId = null; //but if null is used to find a user
+    //it gives the first entry from db
+    //therefore modify findOne function 
+  }
+
   // @UseInterceptors(ClassSerializerInterceptor)
   // @UseInterceptors(SerializeInterceptor)
   // @UseInterceptors(new SerializeInterceptor(UserDto))
