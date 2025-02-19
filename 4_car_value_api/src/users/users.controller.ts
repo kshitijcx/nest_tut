@@ -27,7 +27,8 @@ import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDto) //use interceptor in all routes, exclude password from all responses
-@UseInterceptors(CurrentUserInterceptor) //UseInterceptors make sure to run interceptors before route handlers execute
+//@UseInterceptors(CurrentUserInterceptor) //UseInterceptors make sure to run interceptors before route handlers execute
+//above interceptor is controller scoped to make it global use APP_INTERCEPTOR in module file in providers
 export class UsersController {
   constructor(
     private usersService: UsersService,
