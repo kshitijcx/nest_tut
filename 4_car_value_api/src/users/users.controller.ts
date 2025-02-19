@@ -21,9 +21,13 @@ import {
 } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/currrent-user.decorator';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDto) //use interceptor in all routes, exclude password from all responses
+@UseInterceptors(CurrentUserInterceptor) //UseInterceptors make sure to run interceptors before route handlers execute
 export class UsersController {
   constructor(
     private usersService: UsersService,
@@ -40,9 +44,14 @@ export class UsersController {
     return session.colour;
   }
 
+  // @Get('/whoami')
+  // whoami(@Session() session: any) {
+  //   return this.usersService.findOne(session.userId);
+  // }
+
   @Get('/whoami')
-  whoami(@Session() session: any) {
-    return this.usersService.findOne(session.userId);
+  whoAmI(@CurrentUser() user: User) {
+    return user;
   }
 
   @Post('/signup')
@@ -63,7 +72,7 @@ export class UsersController {
   signOut(@Session() session: any) {
     session.userId = null; //but if null is used to find a user
     //it gives the first entry from db
-    //therefore modify findOne function 
+    //therefore modify findOne function
   }
 
   // @UseInterceptors(ClassSerializerInterceptor)
